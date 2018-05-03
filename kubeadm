@@ -1,0 +1,327 @@
+kubeadm  --help
+
+kubeadm: easily bootstrap a secure Kubernetes cluster.
+
+    ┌──────────────────────────────────────────────────────────┐
+    │ KUBEADM IS CURRENTLY IN BETA                             │
+    │                                                          │
+    │ But please, try it out and give us feedback at:          │
+    │ https://github.com/kubernetes/kubeadm/issues             │
+    │ and at-mention @kubernetes/sig-cluster-lifecycle-bugs    │
+    │ or @kubernetes/sig-cluster-lifecycle-feature-requests    │
+    └──────────────────────────────────────────────────────────┘
+
+Example usage:
+
+    Create a two-machine cluster with one master (which controls the cluster),
+    and one node (where your workloads, like Pods and Deployments run).
+
+    ┌──────────────────────────────────────────────────────────┐
+    │ On the first machine:                                    │
+    ├──────────────────────────────────────────────────────────┤
+    │ master# kubeadm init                                     │
+    └──────────────────────────────────────────────────────────┘
+
+    ┌──────────────────────────────────────────────────────────┐
+    │ On the second machine:                                   │
+    ├──────────────────────────────────────────────────────────┤
+    │ node# kubeadm join <arguments-returned-from-init>        │
+    └──────────────────────────────────────────────────────────┘
+
+    You can then repeat the second step on as many other machines as you like.
+
+Usage:
+  kubeadm [command]
+
+Available Commands:
+  alpha       Experimental sub-commands not yet fully functional.
+  completion  Output shell completion code for the specified shell (bash or zsh).
+  config      Manage configuration for a kubeadm cluster persisted in a ConfigMap in the cluster.
+  help        Help about any command
+  init        Run this command in order to set up the Kubernetes master.
+  join        Run this on any machine you wish to join an existing cluster
+  reset       Run this to revert any changes made to this host by 'kubeadm init' or 'kubeadm join'.
+  token       Manage bootstrap tokens.
+  upgrade     Upgrade your cluster smoothly to a newer version with this command.
+  version     Print the version of kubeadm
+
+Flags:
+  -h, --help   help for kubeadm
+
+Use "kubeadm [command] --help" for more information about a command.
+root@Ubuntu-NAS:~# kubeadm  --help -v
+Error: unknown shorthand flag: 'v' in -v
+Usage:
+  kubeadm [command]
+
+Available Commands:
+  alpha       Experimental sub-commands not yet fully functional.
+  completion  Output shell completion code for the specified shell (bash or zsh).
+  config      Manage configuration for a kubeadm cluster persisted in a ConfigMap in the cluster.
+  help        Help about any command
+  init        Run this command in order to set up the Kubernetes master.
+  join        Run this on any machine you wish to join an existing cluster
+  reset       Run this to revert any changes made to this host by 'kubeadm init' or 'kubeadm join'.
+  token       Manage bootstrap tokens.
+  upgrade     Upgrade your cluster smoothly to a newer version with this command.
+  version     Print the version of kubeadm
+
+Flags:
+  -h, --help   help for kubeadm
+
+Use "kubeadm [command] --help" for more information about a command.
+
+error: unknown shorthand flag: 'v' in -v
+root@Ubuntu-NAS:~#
+
+
+
+root@Ubuntu-NAS:~# kubeadm alpha  --help
+Experimental sub-commands not yet fully functional.
+
+Usage:
+  kubeadm alpha [command]
+
+Available Commands:
+  phase       Invoke subsets of kubeadm functions separately for a manual install.
+
+Flags:
+  -h, --help   help for alpha
+
+Use "kubeadm alpha [command] --help" for more information about a command.
+
+
+
+root@Ubuntu-NAS:~# kubeadm completion  --help
+
+Output shell completion code for the specified shell (bash or zsh).
+The shell code must be evaluated to provide interactive
+completion of kubeadm commands. This can be done by sourcing it from
+the .bash_profile.
+
+Note: this requires the bash-completion framework, which is not installed
+by default on Mac. This can be installed by using homebrew:
+
+    $ brew install bash-completion
+
+Once installed, bash_completion must be evaluated. This can be done by adding the
+following line to the .bash_profile
+
+    $ source $(brew --prefix)/etc/bash_completion
+
+Note for zsh users: [1] zsh completions are only supported in versions of zsh >= 5.2
+
+Usage:
+  kubeadm completion SHELL [flags]
+
+Examples:
+
+# Install bash completion on a Mac using homebrew
+brew install bash-completion
+printf "\n# Bash completion support\nsource $(brew --prefix)/etc/bash_completion\n" >> $HOME/.bash_profile
+source $HOME/.bash_profile
+
+# Load the kubeadm completion code for bash into the current shell
+source <(kubeadm completion bash)
+
+# Write bash completion code to a file and source if from .bash_profile
+kubeadm completion bash > ~/.kube/kubeadm_completion.bash.inc
+printf "\n# Kubeadm shell completion\nsource '$HOME/.kube/kubeadm_completion.bash.inc'\n" >> $HOME/.bash_profile
+source $HOME/.bash_profile
+
+# Load the kubeadm completion code for zsh[1] into the current shell
+source <(kubeadm completion zsh)
+
+Flags:
+  -h, --help   help for completion
+root@Ubuntu-NAS:~# kubeadm config  --help
+
+There is a ConfigMap in the kube-system namespace called "kubeadm-config" that kubeadm uses to store internal configuration about the
+cluster. kubeadm CLI v1.8.0+ automatically creates this ConfigMap with the config used with 'kubeadm init', but if you
+initialized your cluster using kubeadm v1.7.x or lower, you must use the 'config upload' command to create this
+ConfigMap. This is required so that 'kubeadm upgrade' can configure your upgraded cluster correctly.
+
+Usage:
+  kubeadm config [flags]
+  kubeadm config [command]
+
+Available Commands:
+  upload      Upload configuration about the current state, so that 'kubeadm upgrade' can later know how to configure the upgraded cluster.
+  view        View the kubeadm configuration stored inside the cluster.
+
+Flags:
+  -h, --help                help for config
+      --kubeconfig string   The KubeConfig file to use when talking to the cluster. (default "/etc/kubernetes/admin.conf")
+
+Use "kubeadm config [command] --help" for more information about a command.
+
+
+
+
+root@Ubuntu-NAS:~# kubeadm init   --help
+Run this command in order to set up the Kubernetes master.
+
+Usage:
+  kubeadm init [flags]
+
+Flags:
+      --apiserver-advertise-address string   The IP address the API Server will advertise it's listening on. Specify '0.0.0.0' to use the address of the default network interface.
+      --apiserver-bind-port int32            Port for the API Server to bind to. (default 6443)
+      --apiserver-cert-extra-sans strings    Optional extra Subject Alternative Names (SANs) to use for the API Server serving certificate. Can be both IP addresses and DNS names.
+      --cert-dir string                      The path where to save and store the certificates. (default "/etc/kubernetes/pki")
+      --config string                        Path to kubeadm config file. WARNING: Usage of a configuration file is experimental.
+      --cri-socket string                    Specify the CRI socket to connect to. (default "/var/run/dockershim.sock")
+      --dry-run                              Don't apply any changes; just output what would be done.
+      --feature-gates string                 A set of key=value pairs that describe feature gates for various features. Options are:
+Auditing=true|false (ALPHA - default=false)
+CoreDNS=true|false (BETA - default=false)
+DynamicKubeletConfig=true|false (ALPHA - default=false)
+SelfHosting=true|false (ALPHA - default=false)
+StoreCertsInSecrets=true|false (ALPHA - default=false)
+  -h, --help                                 help for init
+      --ignore-preflight-errors strings      A list of checks whose errors will be shown as warnings. Example: 'IsPrivilegedUser,Swap'. Value 'all' ignores errors from all checks.
+      --kubernetes-version string            Choose a specific Kubernetes version for the control plane. (default "stable-1.10")
+      --node-name string                     Specify the node name.
+      --pod-network-cidr string              Specify range of IP addresses for the pod network. If set, the control plane will automatically allocate CIDRs for every node.
+      --service-cidr string                  Use alternative range of IP address for service VIPs. (default "10.96.0.0/12")
+      --service-dns-domain string            Use alternative domain for services, e.g. "myorg.internal". (default "cluster.local")
+      --skip-token-print                     Skip printing of the default bootstrap token generated by 'kubeadm init'.
+      --token string                         The token to use for establishing bidirectional trust between nodes and masters.
+      --token-ttl duration                   The duration before the bootstrap token is automatically deleted. If set to '0', the token will never expire. (default 24h0m0s)
+root@Ubuntu-NAS:~#
+root@Ubuntu-NAS:~# kubeadm join    --help
+
+When joining a kubeadm initialized cluster, we need to establish
+bidirectional trust. This is split into discovery (having the Node
+trust the Kubernetes Master) and TLS bootstrap (having the Kubernetes
+Master trust the Node).
+
+There are 2 main schemes for discovery. The first is to use a shared
+token along with the IP address of the API server. The second is to
+provide a file - a subset of the standard kubeconfig file. This file
+can be a local file or downloaded via an HTTPS URL. The forms are
+kubeadm join --discovery-token abcdef.1234567890abcdef 1.2.3.4:6443,
+kubeadm join --discovery-file path/to/file.conf, or kubeadm join
+--discovery-file https://url/file.conf. Only one form can be used. If
+the discovery information is loaded from a URL, HTTPS must be used.
+Also, in that case the host installed CA bundle is used to verify
+the connection.
+
+If you use a shared token for discovery, you should also pass the
+--discovery-token-ca-cert-hash flag to validate the public key of the
+root certificate authority (CA) presented by the Kubernetes Master. The
+value of this flag is specified as "<hash-type>:<hex-encoded-value>",
+where the supported hash type is "sha256". The hash is calculated over
+the bytes of the Subject Public Key Info (SPKI) object (as in RFC7469).
+This value is available in the output of "kubeadm init" or can be
+calcuated using standard tools. The --discovery-token-ca-cert-hash flag
+may be repeated multiple times to allow more than one public key.
+
+If you cannot know the CA public key hash ahead of time, you can pass
+the --discovery-token-unsafe-skip-ca-verification flag to disable this
+verification. This weakens the kubeadm security model since other nodes
+can potentially impersonate the Kubernetes Master.
+
+The TLS bootstrap mechanism is also driven via a shared token. This is
+used to temporarily authenticate with the Kubernetes Master to submit a
+certificate signing request (CSR) for a locally created key pair. By
+default, kubeadm will set up the Kubernetes Master to automatically
+approve these signing requests. This token is passed in with the
+--tls-bootstrap-token abcdef.1234567890abcdef flag.
+
+Often times the same token is used for both parts. In this case, the
+--token flag can be used instead of specifying each token individually.
+
+Usage:
+  kubeadm join [flags]
+
+Flags:
+      --config string                                 Path to kubeadm config file.
+      --cri-socket string                             Specify the CRI socket to connect to. (default "/var/run/dockershim.sock")
+      --discovery-file string                         A file or url from which to load cluster information.
+      --discovery-token string                        A token used to validate cluster information fetched from the master.
+      --discovery-token-ca-cert-hash strings          For token-based discovery, validate that the root CA public key matches this hash (format: "<type>:<value>").
+      --discovery-token-unsafe-skip-ca-verification   For token-based discovery, allow joining without --discovery-token-ca-cert-hash pinning.
+      --feature-gates string                          A set of key=value pairs that describe feature gates for various features. Options are:
+Auditing=true|false (ALPHA - default=false)
+CoreDNS=true|false (BETA - default=false)
+DynamicKubeletConfig=true|false (ALPHA - default=false)
+SelfHosting=true|false (ALPHA - default=false)
+StoreCertsInSecrets=true|false (ALPHA - default=false)
+  -h, --help                                          help for join
+      --ignore-preflight-errors strings               A list of checks whose errors will be shown as warnings. Example: 'IsPrivilegedUser,Swap'. Value 'all' ignores errors from all checks.
+      --node-name string                              Specify the node name.
+      --tls-bootstrap-token string                    A token used for TLS bootstrapping.
+      --token string                                  Use this token for both discovery-token and tls-bootstrap-token.
+
+
+
+
+
+root@Ubuntu-NAS:~# kubeadm token  --help
+
+This command manages bootstrap tokens. It is optional and needed only for advanced use cases.
+
+In short, bootstrap tokens are used for establishing bidirectional trust between a client and a server.
+A bootstrap token can be used when a client (for example a node that is about to join the cluster) needs
+to trust the server it is talking to. Then a bootstrap token with the "signing" usage can be used.
+bootstrap tokens can also function as a way to allow short-lived authentication to the API Server
+(the token serves as a way for the API Server to trust the client), for example for doing the TLS Bootstrap.
+
+What is a bootstrap token more exactly?
+ - It is a Secret in the kube-system namespace of type "bootstrap.kubernetes.io/token".
+ - A bootstrap token must be of the form "[a-z0-9]{6}.[a-z0-9]{16}". The former part is the public token ID,
+   while the latter is the Token Secret and it must be kept private at all circumstances!
+ - The name of the Secret must be named "bootstrap-token-(token-id)".
+
+You can read more about bootstrap tokens here:
+  https://kubernetes.io/docs/admin/bootstrap-tokens/
+
+Usage:
+  kubeadm token [flags]
+  kubeadm token [command]
+
+Available Commands:
+  create      Create bootstrap tokens on the server.
+  delete      Delete bootstrap tokens on the server.
+  generate    Generate and print a bootstrap token, but do not create it on the server.
+  list        List bootstrap tokens on the server.
+
+Flags:
+      --dry-run             Whether to enable dry-run mode or not
+  -h, --help                help for token
+      --kubeconfig string   The KubeConfig file to use when talking to the cluster (default "/etc/kubernetes/admin.conf")
+
+Use "kubeadm token [command] --help" for more information about a command.
+
+
+
+
+
+root@Ubuntu-NAS:~# kubeadm upgrade  --help
+Upgrade your cluster smoothly to a newer version with this command.
+
+Usage:
+  kubeadm upgrade [flags]
+  kubeadm upgrade [command]
+
+Available Commands:
+  apply       Upgrade your Kubernetes cluster to the specified version.
+  plan        Check which versions are available to upgrade to and validate whether your current cluster is upgradeable.
+
+Flags:
+      --allow-experimental-upgrades        Show unstable versions of Kubernetes as an upgrade alternative and allow upgrading to an alpha/beta/release candidate versions of Kubernetes.
+      --allow-release-candidate-upgrades   Show release candidate versions of Kubernetes as an upgrade alternative and allow upgrading to a release candidate versions of Kubernetes.
+      --config string                      Path to kubeadm config file. WARNING: Usage of a configuration file is experimental!
+      --feature-gates string               A set of key=value pairs that describe feature gates for various features.Options are:
+Auditing=true|false (ALPHA - default=false)
+CoreDNS=true|false (BETA - default=false)
+DynamicKubeletConfig=true|false (ALPHA - default=false)
+SelfHosting=true|false (ALPHA - default=false)
+StoreCertsInSecrets=true|false (ALPHA - default=false)
+  -h, --help                               help for upgrade
+      --ignore-preflight-errors strings    A list of checks whose errors will be shown as warnings. Example: 'IsPrivilegedUser,Swap'. Value 'all' ignores errors from all checks.
+      --kubeconfig string                  The KubeConfig file to use when talking to the cluster. (default "/etc/kubernetes/admin.conf")
+      --print-config                       Specifies whether the configuration file that will be used in the upgrade should be printed or not.
+
+Use "kubeadm upgrade [command] --help" for more information about a command.
